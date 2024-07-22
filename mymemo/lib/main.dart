@@ -5,6 +5,7 @@ void main() {
   runApp(const MyApp());
 }
 
+// 앱 실행 부분
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// 홈 페이지
+// 홈 페이지 위젯
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 앱 바 위젯 부분
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -41,17 +43,22 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.blue,
       ),
+      // [READ] 메모 목록 불러오기
+      // 삼항연산자를 사용 - 메모가 없다면 "메모를 작성해 주세요"
+      // 메모가 있다면 ListView Builder를 사용해 memoList.length 만큼 memo 가져오기
       body: memoList.isEmpty
           ? Center(child: Text("메모를 작성해 주세요"))
           : ListView.builder(
               itemCount: memoList.length, // memoList 개수 만큼 보여주기
               itemBuilder: (context, index) {
                 String memo = memoList[index]; // index에 해당하는 memo 가져오기
+                // ListView로 반복할 ListTile 위젯
                 return ListTile(
                   // 메모 고정 아이콘
                   leading: IconButton(
                     icon: Icon(CupertinoIcons.pin),
                     onPressed: () {
+                      // [UPDATE] 고정 핀 아이콘 클릭 시 수정 화면 DetailPage로 넘어감
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -69,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {
-                    // 아이템 클릭시
+                    // [UPDATE] 아이템 클릭 시 수정 화면 DetailPage로 넘어감
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -82,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+      // [CREATE] 플로팅 액션 버튼 - 새로운 메모 추가
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -124,8 +132,8 @@ class DetailPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // 삭제 버튼 클릭시
-
+              // [DELETE] 삭제 버튼 클릭 시 확인 Alert 띄우기
+              // 여기에서 확인을 누르면 삭제
               showDialog(
                 context: context,
                 builder: (context) {
@@ -160,6 +168,7 @@ class DetailPage extends StatelessWidget {
           )
         ],
       ),
+      // 수정화면의 입력 공간
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: TextField(
